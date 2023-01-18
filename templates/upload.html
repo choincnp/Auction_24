@@ -45,10 +45,11 @@
             let userId = id;
             let title = $('#title').val()
             let minbid = $('#minbid').val()
+            let maxbid = $('#maxbid').val()
             let unitbid = $('#unitbid').val()
             let desc = $('#desc').val()
             let filename = $('.upload-name').val();
-            let status = 0;
+            let status = false;
             let image = $('#ex_filename')[0].files[0] // id file의 0번째 태그의 files 중 0 번째 파일
 
             let form_data = new FormData()
@@ -57,8 +58,9 @@
             form_data.append("desc", desc)
             form_data.append("unitBid", unitbid)
             form_data.append("minBid", minbid)
-            form_data.append("status", Number(status))
-            form_data.append("nowBid", unitbid+minbid)
+            form_data.append("maxBid", maxbid)
+            form_data.append("status", status)
+            form_data.append("nowBid", minbid)
             form_data.append("pic", image, filename)
 
             for (let value of form_data.values()) {
@@ -111,6 +113,15 @@
             />
         </div>
         <div class="form-floating mb-3">
+            <label for="minbid">낙찰가</label>
+            <input
+                    type="text"
+                    class="form-control input-box signIn-pw-input"
+                    id="maxbid"
+                    placeholder="낙찰가"
+            />
+        </div>
+        <div class="form-floating mb-3">
             <label for="unitbid">입찰단위</label>
             <input
                     type="text"
@@ -130,7 +141,7 @@
         </div>
     </form>
     <div class="button-box">
-        <div class="sign-submit-btn" onClick='save("{{session["id"]}}")'>가입하기</div>
+        <div class="sign-submit-btn" onclick='save("{{session["id"]}}")'>등록하기</div>
         <a class="sign-submit-btn" href="/">뒤로가기</a>
     </div>
 </div>

@@ -154,7 +154,7 @@ def uploadItem():
         'nowBid' : int(nowBid),
         'maxBid' : int(maxBid),
         'unitBid' : int(unitBid),
-        'status' : int(status),
+        'status' : status,
         'desc' : desc,
         'owner' : owner
     }
