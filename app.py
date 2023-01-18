@@ -1,10 +1,11 @@
 from flask import Flask, session, render_template, request, jsonify
 
 import requests
-
+import certifi
+ca = certifi.where()
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://test:sparta@cluster0.elmvpjv.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://test:sparta@cluster0.elmvpjv.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca)
 db = client.dbsparta
 app = Flask(__name__)
 app.secret_key = "Mykey"
@@ -32,6 +33,7 @@ def checkSessionValidation():
 def home():
     if 'id' in session:
         global sessionId
+        print(sessionId)
         return render_template('main.html')
     else:
         return render_template('/auth/login.html')
@@ -161,11 +163,9 @@ def uploadItem():
 
 
 ###MyPage###
-@app.route("/users/<id>", methods=["GET"])
-def itemlist(id): ##이 정보를 가지고 client에서 status에 따라 0 = 등록 중인 아이템, 1 = 낙찰된 아이템으로 나눠서 진행해주세요.
-    id = sessionId
-    itemList = list(db.items.find({'owner': id}, {'_id': False}))
-    return jsonify({'itemList' : itemList})
+@app.route("/users", methods=["GET"])
+def itemlist(): ##이 정보를 가지고 client에서 status에 따라 0 = 등록 중인 아이템, 1 = 낙찰된 아이템으로 나눠서 진행해주세요.
+    return jsonify({'id' : sessionId})
 
 ###Modify page###
 @app.route('/detail/<itemNum>', methods=["GET"])
@@ -188,4 +188,4 @@ def bid(itemNum):
         return jsonify({'msg' : '입찰 완료!'})
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5001, debug=True)
