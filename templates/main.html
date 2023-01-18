@@ -98,13 +98,23 @@
                     <image class="itemBoxImg" src="https://cdn.kado.net/news/photo/202102/1060204_489188_4430.jpg" alt=""/>
                     <div class="totalBid">
                       <div>${title}</div>
-                        <div class="nowBid">현재입찰가 : ${nowBid}</div>
-                        <div>기본입찰가 : ${minBid}</div>
-                        <div>입찰 단위 : ${unitBid}</div>
+                        <div class="nowBid">현재입찰가 : ${numberTrimmer(
+                          nowBid
+                        )}원</div>
+                        <div>기본입찰가 : ${numberTrimmer(minBid)}원</div>
+                        <div>입찰 단위 : ${numberTrimmer(unitBid)}원</div>
                     </div>
                 </a>
             </div>
           `;
+      };
+
+      const numberTrimmer = (number) => {
+        const result = number
+          .toString()
+          .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+
+        return result;
       };
     </script>
   </head>
