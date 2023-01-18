@@ -39,7 +39,7 @@
             url: '/users',
             data: {},
             success: function(response){
-
+                location.href='/users?id='+response['id'];
             }
         });
     }
