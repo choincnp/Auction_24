@@ -1,183 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>main</title>
     <style>
-        .mainContents {
-            display: flex;
-            flex-flow: wrap;
-            max-width: 1080px;
-            margin: 110px auto;
-        }
+      .mainContents {
+        display: flex;
+        flex-flow: wrap;
+        max-width: 1080px;
+        margin: 110px auto;
+      }
 
-        .itemBox {
-            margin-right: 30px;
-            width: calc(33.33% - 20px);
-            height: 300px;
-            border-radius: 10px;
-            box-sizing: border-box;
-            text-align: center;
-            margin-bottom: 30px;
-        }
+      .itemBox {
+        margin-right: 30px;
+        width: calc(33.33% - 20px);
+        height: 300px;
+        border-radius: 10px;
+        box-sizing: border-box;
+        text-align: center;
+        margin-bottom: 30px;
+      }
 
-        .itemBox:nth-of-type(3n) {
-            margin-right: inherit;
-        }
+      .itemBox:nth-of-type(3n) {
+        margin-right: inherit;
+      }
 
-        .itemBoxImg {
-            width: 100%;
-            border-radius: 20px
-        }
+      .itemBoxImg {
+        width: 100%;
+        border-radius: 20px;
+      }
 
-        .totalBid {
-            margin-top: 15px;
-            font-weight: bold;
-            font-size: 17px;
-            color: black;
-        }
+      .totalBid {
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 17px;
+        color: black;
+      }
 
-        .totalBid > div:nth-last-of-type(0) {
-            margin-top: 5px;
-        }
+      .totalBid > div:nth-last-of-type(0) {
+        margin-top: 5px;
+      }
 
-        .nowBid {
-            margin: 8px 0px;
-        }
+      .nowBid {
+        margin: 8px 0px;
+      }
 
-        .plusIcon {
-            position: fixed;
-            right: 30px;
-            width: 70px;
-            bottom: 40px;
-            z-index: 1;
+      .plusIcon {
+        position: fixed;
+        right: 30px;
+        width: 70px;
+        bottom: 40px;
+        z-index: 1;
+      }
 
-        }
-
-        .plusIcon > a {
-            color: black !important;
-        }
+      .plusIcon > a {
+        color: black !important;
+      }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
-            //전체조회
-            show_list();
-        })
+      $(document).ready(function () {
+        //전체조회
+        show_list();
+      });
 
-        function show_list() {
-            $.ajax({
-                type: "GET",
-                url: "/items",
-                data: {},
-                success: function (response) {
-                    console.log("response : ",response);
-                    let rows = response['linklist']
-                    for (let l = 0; l < rows.length; l++) {
-                        // let sendMsg = rows[l];
-                        // let id = rows[l]['id'];
-                        // let temp_html = ``;
-                        // temp_html = ``
-                        // $('.mainContents').append(temp_html);
-                    }
-                }
-            });
-        }
+      function show_list() {
+        $.ajax({
+          type: 'GET',
+          url: '/items',
+          data: {},
+          success: function (response) {
+            const { allItems } = response;
+            for (let item of allItems) {
+              const component = createNewComponent(item);
+              $('.mainContents').append(component);
+            }
+          },
+        });
+      }
+
+      const createNewComponent = (data) => {
+        const {
+          desc,
+          itemNum,
+          maxBid,
+          minBid,
+          nowBid,
+          owner,
+          pic,
+          status,
+          title,
+          unitBid,
+        } = data;
+        return `
+            <div class="itemBox" id="Box1">
+                <a href="/detail/">
+                    <image class="itemBoxImg" src="https://cdn.kado.net/news/photo/202102/1060204_489188_4430.jpg" alt=""/>
+                    <div class="totalBid">
+                      <div>${title}</div>
+                        <div class="nowBid">현재입찰가 : ${nowBid}</div>
+                        <div>기본입찰가 : ${minBid}</div>
+                        <div>입찰 단위 : ${unitBid}</div>
+                    </div>
+                </a>
+            </div>
+          `;
+      };
     </script>
-</head>
-<body>
-{% include "navbar.html" %}
-<div class="mainContents">
-    <p></p>
-    <div class="itemBox" id="Box1">
-        <a href="/detail">
-            <image class="itemBoxImg" src="https://cdn.kado.net/news/photo/202102/1060204_489188_4430.jpg" alt=""/>
-            <div class="totalBid">
-                <div class="nowBid">현재입찰가 : 3,600,000,000원</div>
-                <div>기본입찰가 : 1000,000원</div>
-            </div>
-        </a>
-    </div>
-    <div class="itemBox" id="Box2">
-        <a href="/detail/2">
-            <image class="itemBoxImg" src="https://thumb.mt.co.kr/06/2022/08/2022083019564457855_1.jpg/dims/resize/1200/crop/1200x630!/optimize/" alt=""/>
-            <div class="totalBid">
-                <div class="nowBid">현재입찰가 : 7,600,000,000원</div>
-                <div>기본입찰가 : 20,500,000원</div>
-            </div>
-        </a>
-    </div>
-    <div class="itemBox" id="Box3">
-        <a href="/detail/3">
-            <image class="itemBoxImg" src="https://www.kukinews.com/data/kuk/image/2022/01/24/kuk202201240312.610x.0.jpg" alt=""/>
-            <div class="totalBid">
-                <div class="nowBid">현재입찰가 : 33,600,000,000원</div>
-                <div>기본입찰가 : 14,800,000원</div>
-            </div>
-        </a>
-    </div>
-    <div class="itemBox" id="Box4">
-        <a href="/detail/4">
-            <image class="itemBoxImg" src="https://mblogthumb-phinf.pstatic.net/MjAxODA2MDRfNjkg/MDAxNTI4MDk1NTY5NjI2.qt-VPKdJEvY0I5K14r0MjilglBlgtXewDSZmcOaPExQg.Hzg_dHdCdLw0KOdxT4eou4Y5hXM9Du6cu7dfFLgfzX4g.JPEG.king-hong/%EC%84%B8%EA%B3%84%EC%97%90%EC%84%9C_%EA%B0%80%EC%9E%A5_%ED%8A%B9%EC%9D%B4%ED%95%9C_%EA%B1%B4%EB%AC%BC%28%EA%B1%B4%EC%B6%95%EB%AC%BC%29_2.jpg?type=w2" alt=""/>
-            <div class="totalBid">
-                <div class="nowBid">현재입찰가 : 13,600,000,000원</div>
-                <div>기본입찰가 : 43,800,000원</div>
-            </div>
-        </a>
-    </div>
-    <div class="itemBox" id="Box5">
-        <a href="/detail/5">
-            <image class="itemBoxImg" src="https://cdn.pixabay.com/photo/2014/05/15/12/59/building-344857_960_720.jpg" alt=""/>
-            <div class="totalBid">
-                <div class="nowBid">현재입찰가 : 13,600,000,000원</div>
-                <div>기본입찰가 : 43,800,000원</div>
-            </div>
-        </a>
-    </div>
-    <div class="itemBox" id="Box6">
-        <a href="/detail/6">
-            <image class="itemBoxImg" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/projects/161554515663714748.jpg?gif=1&w=480&h=480&c=c&q=80" alt=""/>
-            <div class="totalBid">
-                <div class="nowBid">현재입찰가 : 23,600,000,000원</div>
-                <div>기본입찰가 : 33,200,000원</div>
-            </div>
-        </a>
-    </div>
-    <div class="itemBox" id="Box7">
-        <a href="/detail/7">
-            <image class="itemBoxImg" src="https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/projects/159394674677431905.jpg?gif=1&w=480&h=480&c=c&q=80&webp=1" alt=""/>
-            <div class="totalBid">
-                <div class="nowBid">현재입찰가 : 91,600,000,000원</div>
-                <div>기본입찰가 : 3,200,000원</div>
-            </div>
-        </a>
-    </div>
-    <div class="itemBox" id="Box8">
-        <a href="/detail/8">
-            <image class="itemBoxImg" src="https://i1.wp.com/jinzaspace.com/wp-content/uploads/2011/07/20050526-011.jpg?fit=600%2C514" alt=""/>
-            <div class="totalBid">
-                <div class="nowBid">현재입찰가 : 191,600,000,000원</div>
-                <div>기본입찰가 : 33,200,000원</div>
-            </div>
-        </a>
-    </div>
-    <div class="itemBox" id="Box9">
-        <a href="/detail/9">
-            <image class="itemBoxImg" src="https://wimg.mk.co.kr/meet/neds/2021/11/image_readtop_2021_1094413_16377481234861415.jpg" alt=""/>
-            <div class="totalBid">
-                <div class="nowBid">현재입찰가 : 7,600,000,000원</div>
-                <div>기본입찰가 : 103,200,000원</div>
-            </div>
-        </a>
-    </div>
-</div>
-<div class="plusIcon">
-    <a href="/upload" alt="upload이동">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-             class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    <div class="mainContents"></div>
+    <div class="plusIcon">
+      <a href="/upload" alt="upload이동">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
         </svg>
-    </a>
-</div>
-</body>
+      </a>
+    </div>
+  </body>
 </html>
