@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>myPage</title>
+    <link rel="stylesheet" href="../../static/css/reset.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         .myPageWrapper {
             max-width: 720px;
@@ -40,6 +42,38 @@
         }
     </style>
     <script>
+        const id_in_here = window.location.href.split('=')[1];
+        $(document).ready(function () {
+            postListing();
+        });
+        function  postListing(){
+            $.ajax({
+                type: 'GET',
+                url: '/items',
+                data: {},
+                success: function (response) {
+                    let rows = response['allItems'];
+                    for (let i = 0; i < rows.length ; i++){
+                        if (rows[i]['owner'] == id_in_here){
+                            let title = rows[i]['title'];
+                            let pic = rows[i]['pic'];
+                            let nowBid = rows[i]['nowBid'];
+                            let maxBid = rows[i]['maxbid'];
+                            let temp_html = `<div class="myBox">
+                                                    <div class="imgWrapper">
+                                                        <img src=${pic} alt="">
+                                                    </div>
+                                                    <div class="title">${title}</div>
+                                                    <div class="nowBid">${nowBid}</div>
+                                                    <div class="highBid">${maxBid}</div>
+                                                </div>`
+                            $('.myBoxWrapper').append(temp_html)
+
+                        }
+                    }
+                }
+            })
+        }
     </script>
 </head>
 <body>

@@ -36,10 +36,10 @@
     const mypage = () => {
         $.ajax({
             type: 'GET',
-            url: '/users',
+            url: '/getId',
             data: {},
-            success: function(response){
-                location.href='/users?id='+response['id'];
+            success: function (response) {
+                location.href = '/users?id=' + response['id'];
             }
         });
     }

@@ -127,6 +127,7 @@ def myPage():
 @app.route("/items", methods=["GET"])
 def getItemList():
     allItems = list(db.items.find({}, {'_id': False}))
+    print(allItems)
     return jsonify({'allItems': allItems})
 
 
@@ -165,6 +166,10 @@ def uploadItem():
 ###MyPage###
 @app.route("/users", methods=["GET"])
 def itemlist(): ##이 정보를 가지고 client에서 status에 따라 0 = 등록 중인 아이템, 1 = 낙찰된 아이템으로 나눠서 진행해주세요.
+    return render_template('/myPage.html')
+
+@app.route("/getId", methods=["GET"])
+def getId(): ##이 정보를 가지고 client에서 status에 따라 0 = 등록 중인 아이템, 1 = 낙찰된 아이템으로 나눠서 진행해주세요.
     return jsonify({'id' : sessionId})
 
 ###Modify page###
