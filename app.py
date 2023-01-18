@@ -175,7 +175,9 @@ def getId(): ##이 정보를 가지고 client에서 status에 따라 0 = 등록 
 ###Modify page###
 @app.route('/detail/<itemNum>', methods=["GET"])
 def detail(itemNum):
-    return render_template('/detail/<itemNum>.html')
+    print(itemNum)
+    return render_template('/id.html')
+
 @app.route('/detail/<itemNum>', methods=["POST"])
 def bid(itemNum):
     itemNum = request.form['itemNum']
