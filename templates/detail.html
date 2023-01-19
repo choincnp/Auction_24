@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Title</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
       .itemDetail {
         display: flex;
@@ -44,43 +45,58 @@
       }
     </style>
     <script>
+        const const_item_num = window.location.href.split('=')[1];
       $(document).ready(function () {
-        bid();
+        listing();
       });
-      function bid() {
+      function listing() {
         $.ajax({
           type: 'GET',
-          url: '/detail',
+          url: '/items',
           data: {},
           success: function (response) {
-            let rows = response['bid_list'];
-            console.log(rows);
-            for (let i = 0; i < rows.length; i++) {
-              let minBid = rows[i]['minBid'];
-              let nowBid = rows[i]['nowBid'];
-              let unitBid = rows[i]['unitBid'];
-
-              let temp_html = ``;
-
-              if (minBid == nowBid) {
-                temp_html = nowBid + unitBid;
-                console.log(temp_html);
-              } else {
-                temp_html = nowBid + unitBid;
-              }
-              return temp_html({});
+            let rows = response['allItems'];
+            for (let i = 0; i < rows.length; i++){
+                if(rows[i]['itemNum']==const_item_num){
+                    let pic = rows[i]['pic'];
+                    let nowBid = rows[i]['nowBid'];
+                    let maxBid = rows[i]['maxBid'];
+                    let unitBid = rows[i]['unitBid'];
+                    let desc = rows[i]['desc'];
+                    let title = rows[i]['title']
+                    let temp_html = `<div class="leftDetail">
+                                            <img
+                                              src=${pic}
+                                              alt=""
+                                              style="width: 100%"
+                                            />
+                                          </div>
+                                          <div class="rightDetail">
+                                            <div class="rightContets">
+                                              <div class="inputCommon">제목 : ${title}</div>
+                                              <div class="inputCommon">현재입찰가 : ${nowBid}</div>
+                                              <div class="inputCommon">최고입찰가 : ${maxBid}</div>
+                                              <div class="inputCommon">단위 : ${unitBid}</div>
+                                              <div class="inputCommon">내용 : ${desc}</div>
+                                              <button class="btn" onclick="bid(${nowBid},${unitBid},${maxBid})">입찰</button>
+                                              <button class="btn">뒤로가기</button>
+                                            </div>
+                                          </div>`
+                    $('.itemDetail').append(temp_html);
+                }
             }
           },
         });
       }
 
-      function bid_fail() {
-        $.ajax({
+      function bid(nowBid,unitBid,maxBid){
+          $.ajax({
           type: 'POST',
           url: '/detail',
-          data: {},
+          data: {'itemNum':const_item_num,'nowBid':nowBid,'unitBid':unitBid,'maxBid':maxBid},
           success: function (response) {
-            console.log(response);
+              alert(response['msg'])
+              window.location.reload()
           },
         });
       }
@@ -89,25 +105,6 @@
   <body>
     {% include "navbar.html" %}
     <div class="itemDetail">
-      <div class="leftDetail">
-        <img
-          src="https://cdn.kado.net/news/photo/202102/1060204_489188_4430.jpg"
-          alt=""
-          style="width: 100%"
-        />
-      </div>
-      <div class="rightDetail">
-        <div class="rightContets">
-          <div class="inputCommon">제목 : id:{{id}}</div>
-          <div class="inputCommon">현재입찰가</div>
-          <div class="inputCommon">최고입찰가</div>
-          <div class="inputCommon">단위</div>
-          <div class="inputCommon">내용</div>
-          <button class="btn" onclick="bid()">입찰</button>
-          <button class="btn color2" onclick="bid_fail">입찰취소</button>
-          <button class="btn">뒤로가기</button>
-        </div>
-      </div>
     </div>
   </body>
 </html>
