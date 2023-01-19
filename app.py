@@ -1,4 +1,5 @@
 from flask import Flask, session, render_template, request, jsonify
+from werkzeug.utils import secure_filename
 
 import requests
 import certifi
@@ -9,6 +10,7 @@ client = MongoClient('mongodb+srv://test:sparta@cluster0.elmvpjv.mongodb.net/Clu
 db = client.dbsparta
 app = Flask(__name__)
 app.secret_key = "Mykey"
+app.config['UPLOAD_FOLDER'] = 'D:\projects\Auction_24\static\img'
 
 sessionId = 0
 
@@ -141,6 +143,7 @@ def uploadItem():
     title = request.form['title']
     image = request.files['pic']
     extension = image.filename.split('.')[-1]
+    image.save(secure_filename(image.filename))
     minBid = request.form['minBid']
     nowBid = request.form['nowBid']
     unitBid = request.form['unitBid']
