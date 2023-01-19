@@ -182,18 +182,20 @@ def viewDetail():
     return render_template('/detail.html')
 @app.route('/detail', methods=["POST"])
 def bid():
-    itemNum = request.form['itemNum']
-    nowBid = request.form['nowBid']
-    unitBid = request.form['unitBid']
-    maxBid = request.form['maxBid']
+    itemNum = (int)(request.form['itemNum'])
+    nowBid = (int)(request.form['nowBid'])
+    unitBid = (int)(request.form['unitBid'])
+    maxBid = (int)(request.form['maxBid'])
     nowBid += unitBid
     id = sessionId
     if (nowBid >= maxBid):
         db.items.update_one({'name':itemNum},{'$set':{'nowBid':nowBid}})
         db.items.update_one({'name':itemNum},{'$set':{'owner': id}})
+        print(list(db.items.find_one({}, {'_id': id})))
         return jsonify({'msg' : '낙찰되셨습니다!'})
     else:
-        db.items.update_one({'name': itemNum}, {'$set': {'nowBid': nowBid}})
+        db.items.update_one({'itemNum': itemNum}, {'$set': {'nowBid': nowBid}})
+        print(list(db.items.find({}, {'_id': False})))
         return jsonify({'msg' : '입찰 완료!'})
 
 if __name__ == '__main__':
