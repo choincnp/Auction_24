@@ -49,7 +49,7 @@
         function  postListing(){
             $.ajax({
                 type: 'GET',
-                url: '/items',
+                url: '/items/all',
                 data: {},
                 success: function (response) {
                     let rows = response['allItems'];
@@ -58,7 +58,7 @@
                             let title = rows[i]['title'];
                             let pic = rows[i]['pic'];
                             let nowBid = rows[i]['nowBid'];
-                            let maxBid = rows[i]['maxbid'];
+                            let maxBid = rows[i]['maxBid'];
                             let temp_html = `<div class="myBox">
                                                     <div class="imgWrapper">
                                                         <img src=${pic} alt="">

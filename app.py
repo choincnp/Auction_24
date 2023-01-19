@@ -179,6 +179,12 @@ def itemlist(): ##이 정보를 가지고 client에서 status에 따라 0 = 등�
 def getId(): ##이 정보를 가지고 client에서 status에 따라 0 = 등록 중인 아이템, 1 = 낙찰된 아이템으로 나눠서 진행해주세요.
     return jsonify({'id' : sessionId})
 
+@app.route("/items/all", methods=["GET"])
+def getAllItemList():
+    allItems = list(db.items.find({}, {'_id': False}))
+    print(allItems)
+    return jsonify({'allItems': allItems})
+
 ###Modify page###
 @app.route('/detail', methods=["GET"])
 def viewDetail():
