@@ -148,20 +148,23 @@ def uploadItem():
     desc = request.form['desc']
     status = request.form['status']
     owner = sessionId
-    item = {
-        'itemNum' : itemNum,
-        'title' : title,
-        'pic' : extension,
-        'minBid' : int(minBid),
-        'nowBid' : int(nowBid),
-        'maxBid' : int(maxBid),
-        'unitBid' : int(unitBid),
-        'status' : status,
-        'desc' : desc,
-        'owner' : owner
-    }
-    db.items.insert_one(item)
-    return jsonify({'msg' : '등록되었습니다.'})
+    if (minBid >= maxBid):
+        return jsonify({'msg' : '낙찰가는 기본가보다 높아야 합니다.'})
+    else:
+        item = {
+            'itemNum' : itemNum,
+            'title' : title,
+            'pic' : extension,
+            'minBid' : int(minBid),
+            'nowBid' : int(nowBid),
+            'maxBid' : int(maxBid),
+            'unitBid' : int(unitBid),
+            'status' : int(status),
+            'desc' : desc,
+            'owner' : owner
+        }
+        db.items.insert_one(item)
+        return jsonify({'msg' : '등록되었습니다.'})
 
 
 ###MyPage###
