@@ -94,12 +94,9 @@
         return `
             <div class="itemBox" id="Box1">
                 <a href="/detail?itemNum=${itemNum}">
-                    <image class="itemBoxImg" src="${pic}" alt=""/>
                     <div class="totalBid">
                       <div>${title}</div>
-                        <div class="nowBid">현재입찰가 : ${numberTrimmer(
-                          nowBid
-                        )}원</div>
+                        <div class="nowBid">현재입찰가 : ${numberTrimmer(nowBid)}원</div>
                         <div>기본입찰가 : ${numberTrimmer(minBid)}원</div>
                         <div>입찰 단위 : ${numberTrimmer(unitBid)}원</div>
                     </div>

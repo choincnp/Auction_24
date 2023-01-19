@@ -67,7 +67,7 @@
                     let temp_html = `<div class="leftDetail">
                                             <img
                                               src=${pic}
-                                              alt=""
+                                              alt="D:\projects\Auction_24\static\img\맥북.jpg"
                                               style="width: 100%"
                                             />
                                           </div>
@@ -100,7 +100,7 @@
           success: function (response) {
               alert(response['msg'])
               if(response['msg'] == '낙찰되셨습니다!'){
-                  window.location.href = '/';
+                  backPage();
               }
               else{
                   window.location.reload()

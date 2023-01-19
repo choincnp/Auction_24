@@ -76,8 +76,7 @@
           cache: false,
           contentType: false,
           processData: false,
-            success: function (response) {
-                if (response['msg'] === '')
+          success: function (response){
                 alert(response['msg']);
                 window.location.href = '/';
             },
