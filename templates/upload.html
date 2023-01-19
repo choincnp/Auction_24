@@ -70,7 +70,7 @@
 
         $.ajax({
           type: 'POST',
-          url: `/upload`,
+          url: '/upload',
           data: form_data,
           // 파일을 보내는데 필요한 기본 세팅이 되어있지 않을 수 있기 떄문에 false로 설정
           cache: false,
@@ -162,7 +162,7 @@
         </div>
       </form>
       <div class="button-box">
-        <div class="sign-submit-btn" onclick='save("{{session[`id`]}}")'>
+        <div class="sign-submit-btn" onclick='save("{{session['id']}}")'>
           등록하기
         </div>
         <a class="sign-submit-btn" href="/">뒤로가기</a>
