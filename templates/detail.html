@@ -79,7 +79,7 @@
                                               <div class="inputCommon">단위 : ${unitBid}</div>
                                               <div class="inputCommon">내용 : ${desc}</div>
                                               <button class="btn" onclick="bid(${nowBid},${unitBid},${maxBid})">입찰</button>
-                                              <button class="btn">뒤로가기</button>
+                                              <button class="btn" onclick="backPage()">뒤로가기</button>
                                             </div>
                                           </div>`
                     $('.itemDetail').append(temp_html);
@@ -87,6 +87,9 @@
             }
           },
         });
+      }
+      function backPage(){
+          window.location.href = '/';
       }
 
       function bid(nowBid,unitBid,maxBid){
@@ -96,7 +99,12 @@
           data: {'itemNum':const_item_num,'nowBid':nowBid,'unitBid':unitBid,'maxBid':maxBid},
           success: function (response) {
               alert(response['msg'])
-              window.location.reload()
+              if(response['msg'] == '낙찰되셨습니다!'){
+                  window.location.href = '/';
+              }
+              else{
+                  window.location.reload()
+              }
           },
         });
       }

@@ -190,10 +190,11 @@ def bid():
     unitBid = (int)(request.form['unitBid'])
     maxBid = (int)(request.form['maxBid'])
     nowBid += unitBid
-    id = sessionId
+    id = session['id']
     if (nowBid >= maxBid):
-        db.items.update_one({'name':itemNum},{'$set':{'nowBid':nowBid}})
-        db.items.update_one({'name':itemNum},{'$set':{'owner': id}})
+        db.items.update_one({'itemNum':itemNum},{'$set':{'nowBid':nowBid}})
+        db.items.update_one({'itemNum':itemNum},{'$set':{'owner': id}})
+        db.items.update_one({'itemNum':itemNum},{'$set':{'status': 1}})
         print(list(db.items.find_one({}, {'_id': id})))
         return jsonify({'msg' : '낙찰되셨습니다!'})
     else:
