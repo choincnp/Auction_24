@@ -1,7 +1,4 @@
 from flask import Flask, session, render_template, request, jsonify
-from werkzeug.utils import secure_filename
-
-import requests
 import certifi
 ca = certifi.where()
 
@@ -143,7 +140,6 @@ def uploadItem():
     title = request.form['title']
     image = request.files['pic']
     extension = image.filename.split('.')[-1]
-    image.save(secure_filename(image.filename))
     minBid = request.form['minBid']
     nowBid = request.form['nowBid']
     unitBid = request.form['unitBid']

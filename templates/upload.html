@@ -76,10 +76,11 @@
           cache: false,
           contentType: false,
           processData: false,
-          success: function (response) {
-            alert(response['msg']);
-            window.location.href = '/';
-          },
+            success: function (response) {
+                if (response['msg'] === '')
+                alert(response['msg']);
+                window.location.href = '/';
+            },
         });
       }
     </script>
@@ -87,7 +88,8 @@
   <body>
     {% include "navbar.html" %}
     <div class="login-box uploadWrapper">
-      <form>
+      <form action = "http://localhost:5001/upload" method = "POST"
+         enctype = "multipart/form-data">
         <div class="login-title">업로드</div>
         <div class="form-floating mb-3">
           <label for="title">제목</label>

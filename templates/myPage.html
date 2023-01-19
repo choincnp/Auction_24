@@ -40,6 +40,10 @@
         .title{
             font-weight: bold;
         }
+        .line{
+            margin-top : 50px;
+            font-weight: bold;
+        }
     </style>
     <script>
         const id_in_here = window.location.href.split('=')[1];
@@ -59,15 +63,27 @@
                             let pic = rows[i]['pic'];
                             let nowBid = rows[i]['nowBid'];
                             let maxBid = rows[i]['maxBid'];
-                            let temp_html = `<div class="myBox">
+                            if (rows[i]['status']===0){
+                                let temp_html = `<div class="myBox">
                                                     <div class="imgWrapper">
                                                         <img src=${pic} alt="">
                                                     </div>
-                                                    <div class="title">${title}</div>
-                                                    <div class="nowBid">${nowBid}</div>
-                                                    <div class="highBid">${maxBid}</div>
+                                                    <div class="title">품목 : ${title}</div>
+                                                    <div class="nowBid">현재진행가격 : ${nowBid}</div>
+                                                    <div class="highBid">낙찰액 : ${maxBid}</div>
                                                 </div>`
-                            $('.myBoxWrapper').append(temp_html)
+                                $('.myBoxWrapper').append(temp_html)
+                            }else{
+                                let temp_html = `<div class="myBox">
+                                                    <div class="imgWrapper">
+                                                        <img src=${pic} alt="">
+                                                    </div>
+                                                    <div class="title">품목 : ${title}</div>
+                                                    <div class="nowBid">현재진행가격 : ${nowBid}</div>
+                                                    <div class="highBid">낙찰액 : ${maxBid}</div>
+                                                </div>`
+                                $('.myBoxWrapper2').append(temp_html)
+                            }
 
                         }
                     }
@@ -80,7 +96,10 @@
 {% include "navbar.html" %}
 <div class="myPageWrapper">
     <p class="myPageTitle">마이페이지</p>
+    <p class="line">판매중인 물건</p>
     <div class="myBoxWrapper"></div>
+    <p class="line">구매한 물건</p>
+    <div class="myBoxWrapper2"></div>
 </div>
 </body>
 </html>
