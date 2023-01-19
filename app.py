@@ -50,8 +50,8 @@ def getlogin():
 
 @app.route('/auth/login', methods=['POST'])
 def logIn():
-    user_id = request.form['inputId']
-    user_pw = request.form['inputPw']
+    user_id = request.form['inputId'].strip()
+    user_pw = request.form['inputPw'].strip()
     error = True
     # 유효성 검사 (빈문자열, 4자리 미만, ID 존재여부 -> 존재하면 PW 일치 확인)
     if (len(user_id.strip()) == 0):
@@ -79,9 +79,9 @@ def join():
 
 @app.route('/auth/signIn', methods=['POST'])
 def signIn():
-    inputId = request.form['inputId']
-    inputPw = request.form['inputPw']
-    inputName = request.form['inputName']
+    inputId = request.form['inputId'].strip()
+    inputPw = request.form['inputPw'].strip()
+    inputName = request.form['inputName'].strip()
     error = True
     # 유효성 검사 (빈문자열, 4자리 미만, ID중복 여부)
     if (len(inputId.strip()) == 0):
@@ -127,8 +127,9 @@ def myPage():
 @app.route("/items", methods=["GET"])
 def getItemList():
     allItems = list(db.items.find({}, {'_id': False}))
-    print(allItems)
-    return jsonify({'allItems': allItems})
+    unSelledItems = [x for x in allItems if x['status']==0]
+    print(unSelledItems)
+    return jsonify({'allItems': unSelledItems})
 
 
 ##Upload##
@@ -173,13 +174,11 @@ def getId(): ##이 정보를 가지고 client에서 status에 따라 0 = 등록 
     return jsonify({'id' : sessionId})
 
 ###Modify page###
-@app.route('/detail/<itemNum>', methods=["GET"])
-def detail(itemNum):
-    print(itemNum)
-    return render_template('/id.html')
-
-@app.route('/detail/<itemNum>', methods=["POST"])
-def bid(itemNum):
+@app.route('/detail', methods=["GET"])
+def viewDetail():
+    return render_template('/detail.html')
+@app.route('/detail', methods=["POST"])
+def bid():
     itemNum = request.form['itemNum']
     nowBid = request.form['nowBid']
     unitBid = request.form['unitBid']
